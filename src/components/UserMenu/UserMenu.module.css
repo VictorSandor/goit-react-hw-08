@@ -1,0 +1,24 @@
+.div{
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+.p{
+font-weight: 700;
+font-size: 18px;
+color: rgb(167, 167, 241)
+}
+
+.button{
+max-height: 50px;
+padding: 7px;
+background-color:#574ceb;
+color:#faf9fd;
+border: none;
+border-radius: 3px;
+}
+
+.button:hover{
+background-color: #641951;
+}

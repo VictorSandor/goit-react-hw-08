@@ -1,0 +1,36 @@
+.div{
+    display: flex;
+    justify-content: center;
+    gap: 15px
+}
+.btnClose{
+  border: none;
+  background-color: white;
+}
+
+.btnDelete{
+    padding: 4px;
+    width: 90px;
+    margin: 0 auto;
+    background-color: #c54104;
+    color: white;
+    border: none;
+    border-radius: 3px; 
+}
+
+.btnDelete:hover {
+  background-color: #af2a13;
+}
+
+.btnCansel{
+    padding: 4px;
+    width: 90px;
+    margin: 0 auto;
+    background-color: #3134d3;
+    color: white;
+    border: none;
+    border-radius: 3px;
+}
+.btnCansel:hover{
+    background-color: #422dbe;
+}

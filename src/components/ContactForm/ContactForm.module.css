@@ -1,0 +1,53 @@
+.container {
+    border: 1px solid black;
+    border-radius: 4px;
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    width: 240px;
+    height: 150px;
+    display: flex;
+    margin-bottom: 15px;
+}
+
+.name{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+ 
+}
+
+.number {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+
+    
+}
+
+.input{
+  width: 230px;
+  padding: 5px;
+}
+
+.btn{
+  padding: 4px;
+  width: 90px;
+  margin: 0 auto;
+  background-color:#3d35aa;
+  color:white;
+  border: none;
+  border-radius: 3px;
+  
+}
+
+.btn:hover {
+  background-color: #2e1977;
+}
+
+.error {
+  color: rgb(244, 6, 6);
+  font-size: 0.875em;
+}
