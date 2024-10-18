@@ -29,4 +29,6 @@ export default function ContactList() {
             <ConfirmationModal />
          </>
     );
+
+    
 }

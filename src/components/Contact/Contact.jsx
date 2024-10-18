@@ -23,6 +23,7 @@ export default function Contact({contact}) {
             <button className={css.btn} onClick={handleDeletClick}>Delete</button>
         </div>
     );
+    
 }
 
 
