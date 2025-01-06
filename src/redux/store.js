@@ -1,4 +1,4 @@
-import { configureStore } from "@reduxjs/toolkit";
+import { configureStore } from '@reduxjs/toolkit';
 import {
   persistStore,
   persistReducer,
@@ -8,30 +8,24 @@ import {
   PERSIST,
   PURGE,
   REGISTER,
-} from "redux-persist";
-import storage from "redux-persist/lib/storage";
-import authReducer from "./auth/slice";
-import contactsReducer from "./contacts/slice";
-import filterReducer from "./filters/slice";
-import modalReducer from "./modal/slice";
-import { combineReducers } from "redux";
+} from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
+import userReducer from './user/slice';
+import waterReducer from './water/slice';
 
-const persistedAuthReducer = {
-  key: "auth",
+const userPersistConfig = {
+  key: 'user',
   storage,
-  whitelist: ["token"],
+  whitelist: ['refreshToken'], // вказати яку властивість зберігти, поки що додав тільки токен
 };
-
-const rootReducer = combineReducers({
-  auth: persistReducer(persistedAuthReducer, authReducer),
-  contacts: contactsReducer,
-  filter: filterReducer,
-  modal: modalReducer,
-});
+const persistedUserReducer = persistReducer(userPersistConfig, userReducer);
 
 export const store = configureStore({
-  reducer: rootReducer,
-  middleware: (getDefaultMiddleware) =>
+  reducer: {
+    user: persistedUserReducer,
+    water: waterReducer,
+  },
+  middleware: getDefaultMiddleware =>
     getDefaultMiddleware({
       serializableCheck: {
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],

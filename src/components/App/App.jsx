@@ -1,41 +1,83 @@
-import { lazy, Suspense, useEffect } from "react";
-import { Route, Routes } from "react-router-dom";
-import Layout from "../Layout/Layout";
-import RestrictedRoute from "../RestrictedRoute";
-import PrivateRoute from "../PrivateRoute";
-import { useDispatch, useSelector } from "react-redux";
-import { selectIsRefreshing } from "../../redux/auth/selectors";
-import { refreshUser } from "../../redux/auth/operations";
-import css from './App.module.css';
+import { Suspense, useEffect } from 'react';
+import { Route, Routes } from 'react-router';
+import RestrictedRoute from '../Routes/RestrictedRoute';
+import PrivateRoute from '../Routes/PrivateRoute';
+import '../App/App.css';
+import SignUpPage from '../../pages/SignUpPage/SignUpPage';
+import SignInPage from '../../pages/SignInPage/SignInPage';
+import TrackerPage from '../../pages/TrackerPage/TrackerPage';
+import SharedLayout from '../SharedLayout/SharedLayout';
+import HomePage from '../../pages/HomePage/HomePage';
+import { Toaster } from 'react-hot-toast';
+import { useDispatch, useSelector } from 'react-redux';
+import { refreshUserToken } from '../../redux/user/operations';
+import '../../translate/index.js';
+import WaterLoader from '../../shared/components/WaterLoader/WaterLoader.jsx';
+import RefreshLoader from '../RefreshLoader/RefreshLoader.jsx';
+import { selectIsRefreshing } from '../../redux/user/selectors.js';
 
-const HomePage = lazy(() => import("../../pages/HomePage/HomePage"));
-const RegistrationPage = lazy(() => import("../../pages/RegistrationPage/RegistrationPage"));
-const LoginPage = lazy(() => import("../../pages/LoginPage/LoginPage"));
-const ContactsPage = lazy(() => import("../../pages/ContactsPage/ContactsPage"));
-
-
-export default function App() {
+function App() {
   const dispatch = useDispatch();
   const isRefreshing = useSelector(selectIsRefreshing);
 
   useEffect(() => {
-      dispatch(refreshUser());
+    dispatch(refreshUserToken());
   }, [dispatch]);
- 
-  return isRefreshing ? (
-    <b>Please wait, updating user info...</b>) : (
-      <div className={css.container}>
-    <Layout>
-      <Suspense fallback={null}>
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/register" element={<RestrictedRoute redirectTo="/contacts" component={RegistrationPage}/>} />
-          <Route path="/login" element={<RestrictedRoute redirectTo="/contacts" component={LoginPage} />}/>
-          <Route path="/contacts" element={<PrivateRoute redirectTo="/login" component={ContactsPage} />}/>
-        </Routes>
-      </Suspense>
-        </Layout>
-        </div>
+
+  return (
+    <>
+      <Toaster
+        position="top-center"
+        toastOptions={{
+          duration: 5000,
+        }}
+      />
+
+      <SharedLayout>
+        {isRefreshing ? (
+          <RefreshLoader />
+        ) : (
+          <Suspense fallback={<WaterLoader />}>
+            <Routes>
+              <Route
+                path="/"
+                element={
+                  <RestrictedRoute
+                    component={<HomePage />}
+                    redirectTo="/tracker"
+                  />
+                }
+              />
+              <Route
+                path="/signup"
+                element={
+                  <RestrictedRoute
+                    component={<SignUpPage />}
+                    redirectTo="/tracker"
+                  />
+                }
+              />
+              <Route
+                path="/signin"
+                element={
+                  <RestrictedRoute
+                    component={<SignInPage />}
+                    redirectTo="/tracker"
+                  />
+                }
+              />
+              <Route
+                path="/tracker"
+                element={
+                  <PrivateRoute component={<TrackerPage />} redirectTo="/" />
+                }
+              />
+            </Routes>
+          </Suspense>
+        )}
+      </SharedLayout>
+    </>
   );
 }
 
+export default App;
